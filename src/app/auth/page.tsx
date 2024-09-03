@@ -1,5 +1,5 @@
-export default function AuthP() {
+export default function Auth() {
   return (
-    <div>page</div>
+    <div>Auth</div>
   )
 }
