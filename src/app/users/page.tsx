@@ -1,4 +1,4 @@
-export default function UsersPage() {
+export default function Users() {
   return (
     <div>page</div>
   )
