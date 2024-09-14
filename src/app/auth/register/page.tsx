@@ -77,7 +77,7 @@ export default function Login() {
     toast.promise(promise, {
       loading: "Processing your request. Please wait a moment.",
       success: () => {
-        router.push("/")
+        router.push("/auth/login")
         return "Your request was successfully completed."
       },
       error:

@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt"
+import { genSaltSync, hashSync } from "bcrypt-edge"
 
 /**
  * Salts and hashes a password using bcrypt.
@@ -21,10 +21,10 @@ export async function saltAndHashPassword(
   const saltRounds = 10 // Number of salting rounds. 10 is a good balance between security and performance.
 
   // Generate a new salt if none is provided
-  const saltToUse = salt ?? (await bcrypt.genSalt(saltRounds))
+  const saltToUse = salt ?? (await genSaltSync(saltRounds))
 
   // Hash the password with the determined salt
-  const hash = await bcrypt.hash(password, saltToUse)
+  const hash = hashSync(password, saltToUse)
 
   // Return both the hash and the salt
   return {
