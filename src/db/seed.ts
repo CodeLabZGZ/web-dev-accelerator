@@ -1,83 +1,34 @@
+import EDUCATIONAL_LEVELS from "@/lib/data/educational-levels.json"
+import JOBS_POSITIONS from "@/lib/data/job-positions.json"
+import PROGRAMMING_LANGUAGES from "@/lib/data/programming-languages.json"
+import SECTORS from "@/lib/data/sectors.json"
 import { faker } from "@faker-js/faker"
 import { addSecond } from "@formkit/tempo"
 
 export const TAGS = [
-  "frontend developer",
-  "backend developer",
-  "fullstack developer",
-  "DevOps engineer",
-  "QA engineer",
-  "pentester",
-  "security engineer",
-  "cloud architect",
-  "software engineer",
-  "test automation engineer",
-  "mobile developer",
-  "iOS developer",
-  "Android developer",
-  "UI/UX designer",
-  "data engineer",
-  "data scientist",
-  "machine learning engineer",
-  "AI specialist",
-  "blockchain developer",
-  "cybersecurity analyst",
-  "site reliability engineer (SRE)",
-  "system administrator",
-  "network engineer",
-  "database administrator (DBA)",
-  "game developer",
-  "VR/AR developer",
-  "product manager",
-  "technical lead",
-  "scrum master",
-  "release manager",
-  "software architect",
-  "test engineer",
-  "functional tester",
-  "performance tester",
-  "accessibility specialist",
-  "React developer",
-  "Angular developer",
-  "Vue.js developer",
-  "Node.js developer",
-  "Python developer",
-  "Java developer",
-  "C# developer",
-  ".NET developer",
-  "PHP developer",
-  "Ruby on Rails developer",
-  "Go developer",
-  "Rust developer",
-  "Kotlin developer",
-  "Scala developer",
-  "Flutter developer",
-  "Swift developer",
-  "GraphQL developer",
-  "Docker engineer",
-  "Kubernetes specialist",
-  "AWS engineer",
-  "Azure engineer",
-  "GCP engineer",
-  "CI/CD specialist",
-  "microservices architect",
-  "API developer",
-  "network security engineer",
-  "ethical hacker",
-  "penetration tester",
-  "automation engineer",
-  "integration engineer",
-  "IoT developer",
-  "Embedded systems engineer",
-  "robotics engineer",
-  "business analyst",
-  "tech support engineer",
-  "IT consultant",
-  "software project manager"
+  ...EDUCATIONAL_LEVELS,
+  ...JOBS_POSITIONS,
+  ...PROGRAMMING_LANGUAGES,
+  ...SECTORS
 ]
 
-// Función para determinar si un proyecto está dentro de su período de fijación
-const isWithinStickingPeriod = (
+/**
+ * Determina si un proyecto está dentro del período de tiempo activo.
+ *
+ * @param {Project} project - El objeto del proyecto que contiene información sobre su fecha de creación y el tiempo de permanencia.
+ * @param {Date} currentDate - La fecha y hora actuales a comparar con el período de tiempo del proyecto.
+ * @returns {boolean} `true` si el proyecto está dentro del período de tiempo activo, `false` si está expirado.
+ *
+ * @example
+ * const project = {
+ *   createdAt: '2024-01-01T00:00:00Z',
+ *   stickingTime: 3600 * 1000 // 1 hora en milisegundos
+ * };
+ * const currentDate = new Date('2024-01-01T00:30:00Z');
+ * const result = isWithinStickingPeriod(project, currentDate);
+ * console.log(result); // true
+ */
+export const isWithinStickingPeriod = (
   project: Project,
   currentDate: Date
 ): boolean => {
@@ -85,7 +36,7 @@ const isWithinStickingPeriod = (
   return endDate > currentDate || endDate.getTime() === currentDate.getTime()
 }
 
-interface Project {
+export interface Project {
   image: string
   company: string
   offer: string

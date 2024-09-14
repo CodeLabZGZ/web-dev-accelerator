@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { MultiSelect } from "@/components/ui/multi-select"
-
 import {
   Select,
   SelectContent,
@@ -19,24 +18,39 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
+import EDUCATIONAL_LEVELS from "@/lib/data/educational-levels.json"
+import JOBS_POSITIONS from "@/lib/data/job-positions.json"
+import PROGRAMMING_LANGUAGES from "@/lib/data/programming-languages.json"
+import SECTORS from "@/lib/data/sectors.json"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { z } from "zod"
 
-const formSchema = z.object({
-  firstName: z.string().min(1).max(20),
-  lastName: z.string().min(1).max(20),
-  email: z.string().email(),
-  password: z.string(),
-  confirmPassword: z.string(),
-  educationalLevel: z.enum(["graduado"]),
-  favoriteProgrammingLanguage: z.enum(["python"]),
-  desiredJobPosition: z.enum(["programmer"]),
-  categories: z.array(z.string())
-})
+const formSchema = z
+  .object({
+    firstName: z.string().min(1).max(20),
+    lastName: z.string().min(1).max(20),
+    email: z.string().email(),
+    password: z.string(),
+    confirmPassword: z.string(),
+    educationalLevel: z.enum(EDUCATIONAL_LEVELS as [string, ...string[]]),
+    favoriteProgrammingLanguage: z.enum(
+      PROGRAMMING_LANGUAGES as [string, ...string[]]
+    ),
+    desiredJobPosition: z.enum(JOBS_POSITIONS as [string, ...string[]]),
+    desiredSectors: z.array(z.string())
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"] // El error se asignará a este campo
+  })
 
 export default function Login() {
+  const router = useRouter()
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,15 +60,29 @@ export default function Login() {
       email: "",
       password: "",
       confirmPassword: "",
-      categories: []
+      desiredSectors: []
     }
   })
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+    const promise = fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(values)
+    })
+
+    toast.promise(promise, {
+      loading: "Processing your request. Please wait a moment.",
+      success: () => {
+        router.push("/")
+        return "Your request was successfully completed."
+      },
+      error:
+        "An error occurred while processing your request. Please try again."
+    })
   }
 
   return (
@@ -162,13 +190,9 @@ export default function Login() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="self-taught">Self Taught</SelectItem>
-                        <SelectItem value="formación profesional">
-                          Professional Training
-                        </SelectItem>
-                        <SelectItem value="graduado">Graduate</SelectItem>
-                        <SelectItem value="master">Master's Degree</SelectItem>
-                        <SelectItem value="doctorado">PhD</SelectItem>
+                        {EDUCATIONAL_LEVELS.map(value => (
+                          <SelectItem value={value}>{value}</SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -191,8 +215,9 @@ export default function Login() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="python">Python</SelectItem>
-                        <SelectItem value="javascript">JavaScript</SelectItem>
+                        {PROGRAMMING_LANGUAGES.map(value => (
+                          <SelectItem value={value}>{value}</SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -215,10 +240,9 @@ export default function Login() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="programmer">Programmer</SelectItem>
-                        <SelectItem value="manager">Manager</SelectItem>
-                        <SelectItem value="accountant">Accountant</SelectItem>
-                        <SelectItem value="cto">CTO</SelectItem>
+                        {JOBS_POSITIONS.map(value => (
+                          <SelectItem value={value}>{value}</SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -226,18 +250,16 @@ export default function Login() {
                 )}
               />
               <Controller
-                name="categories"
+                name="desiredSectors"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Desired Sector</FormLabel>
                     <MultiSelect
-                      options={[
-                        "Security",
-                        "Architecture",
-                        "Finance",
-                        "Software"
-                      ].map(value => ({ label: value, value }))}
+                      options={SECTORS.map(value => ({
+                        label: value,
+                        value
+                      }))}
                       onValueChange={value => field.onChange(value)}
                       value={field.value || []}
                       placeholder="Select the sectors you're interested in"

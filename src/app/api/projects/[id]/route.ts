@@ -1,7 +1,5 @@
-export async function GET(request: Request) {}
+import { response } from "@/lib/utils"
 
-export async function PUT(request: Request) {}
-
-export async function PATCH(request: Request) {}
-
-export async function DELETE(request: Request) {}
+export async function PATCH(request: Request) {
+  return response({ code: 200 })
+}

@@ -1,12 +1,31 @@
-import { text, integer, sqliteTable } from "drizzle-orm/sqlite-core";
-import { sql } from "drizzle-orm";
+import { sql } from "drizzle-orm"
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
+import { createInsertSchema, createSelectSchema } from "drizzle-zod"
 
 export const projects = sqliteTable("projects", {
-  id: text("id"),
-  createdAt: integer("createdAt", { mode: "timestamp_ms" }).default(
-    sql`CURRENT_TIMESTAMP`
-  ),
-  updatedAt: integer("updatedAt", { mode: "timestamp_ms" }).default(
-    sql`CURRENT_TIMESTAMP`
-  ),
-});
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  image: text("image"),
+  company: text("company").notNull(),
+  offer: text("offer").notNull(),
+  location: text("location").notNull(),
+  link: text("link").notNull(),
+  votes: integer("votes").default(0),
+  minSalary: integer("min_salary"),
+  maxSalary: integer("max_salary"),
+  tags: text("tags", { mode: "json" }),
+  stickingTime: integer("sticking_time").default(0),
+  updatedAt: integer("updatedAt", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch())`),
+  createdAt: integer("createdAt", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch())`)
+})
+
+// Schema for inserting a project - can be used to validate API requests
+export const insertProjectSchema = createInsertSchema(projects)
+
+// Schema for selecting a project - can be used to validate API responses
+export const selectProjectSchema = createSelectSchema(projects)

@@ -1,12 +1,12 @@
-import type { MetadataRoute } from "next";
+import type { MetadataRoute } from "next"
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/projects", "users"],
+      disallow: ["/projects", "/users"]
     },
-    sitemap: "https://acme.com/sitemap.xml",
-  };
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL}/sitemap.xml`
+  }
 }

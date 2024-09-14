@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { signIn } from "next-auth/react"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -31,10 +32,20 @@ export default function Login() {
   })
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // Sign in with the provided credentials.
+    const result = await signIn("credentials", {
+      ...values,
+      callbackUrl: "/"
+    })
+
+    if (result?.error) {
+      console.error("Login failed:", result.error)
+      // You can add some state to display error messages to the user here
+    } else {
+      // Redirect to the specified URL
+      window.location.href = "/"
+    }
   }
 
   return (
@@ -48,7 +59,7 @@ export default function Login() {
         </h2>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+        <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="email"

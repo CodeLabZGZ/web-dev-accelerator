@@ -28,9 +28,19 @@ CREATE TABLE `authenticator` (
 );
 --> statement-breakpoint
 CREATE TABLE `projects` (
-	`id` text,
-	`createdAt` integer DEFAULT CURRENT_TIMESTAMP,
-	`updatedAt` integer DEFAULT CURRENT_TIMESTAMP
+	`id` text PRIMARY KEY NOT NULL,
+	`image` text,
+	`company` text NOT NULL,
+	`offer` text NOT NULL,
+	`location` text NOT NULL,
+	`link` text NOT NULL,
+	`votes` integer DEFAULT 0,
+	`min_salary` integer,
+	`max_salary` integer,
+	`tags` text,
+	`sticking_time` integer DEFAULT 0,
+	`updatedAt` integer DEFAULT (unixepoch()) NOT NULL,
+	`createdAt` integer DEFAULT (unixepoch()) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `session` (
@@ -45,7 +55,15 @@ CREATE TABLE `user` (
 	`name` text,
 	`email` text,
 	`emailVerified` integer,
-	`image` text
+	`image` text,
+	`password` text,
+	`salt` text,
+	`highestEducationalLevel` text,
+	`favoriteProgrammingLanguage` text,
+	`desiredJobPosition` text,
+	`desiredSectors` text,
+	`updatedAt` integer DEFAULT (unixepoch()) NOT NULL,
+	`createdAt` integer DEFAULT (unixepoch()) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `verificationToken` (
