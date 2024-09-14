@@ -1,10 +1,11 @@
+import { auth } from "@/auth"
 import { db } from "@/db/db"
 import { projects } from "@/db/schemas/projects"
 import { isWithinStickingPeriod } from "@/db/seed"
 import { response } from "@/lib/utils"
 import { z } from "zod"
 
-export async function GET() {
+async function getHandler() {
   const currentDate = new Date()
   const rows = await db.select().from(projects)
   const data = rows.sort((a, b) => {
@@ -73,7 +74,7 @@ const bodySchema = z
     }
   )
 
-export async function POST(request: Request) {
+async function postHandler(request: Request) {
   try {
     // Parse the JSON request body
     const data = await request.json()
@@ -99,3 +100,6 @@ export async function POST(request: Request) {
     return response({ message: "An unexpected error occurred", code: 500 })
   }
 }
+
+export const GET = getHandler
+export const POST = auth(postHandler)
