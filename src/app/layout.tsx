@@ -1,6 +1,8 @@
+import { AppLayout } from "@/components/layout"
 import { ThemeProvider } from "@/components/theme-provider"
 import "@/styles/globals.css"
 import type { Metadata } from "next"
+import { SessionProvider } from "next-auth/react"
 import { Inter } from "next/font/google"
 import { Toaster } from "sonner"
 
@@ -23,15 +25,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Toaster />
-          {children}
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Toaster />
+            <AppLayout>{children}</AppLayout>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   )
