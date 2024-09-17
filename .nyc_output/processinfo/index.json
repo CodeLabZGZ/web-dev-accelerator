@@ -1,1 +1,0 @@
-{"processes":{"8a57f3c4-8bce-438e-8e6c-859337ca21c9":{"parent":"e04b65e5-66b8-4669-87b6-b0f9d00c157a","children":[]},"e04b65e5-66b8-4669-87b6-b0f9d00c157a":{"parent":null,"children":["8a57f3c4-8bce-438e-8e6c-859337ca21c9"]}},"files":{"/home/hector/Documents/projects/web-dev-accelerator/cypress.config.ts":["8a57f3c4-8bce-438e-8e6c-859337ca21c9"]},"externalIds":{}}
