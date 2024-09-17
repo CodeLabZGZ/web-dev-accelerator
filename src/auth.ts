@@ -25,8 +25,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           .from(users)
           .where(eq(users.email, credentials.email))
 
-        console.log(user)
-
         if (!user) {
           throw new Error("User not found")
         }
@@ -40,7 +38,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error("Credentials mismatch")
         }
 
-        console.log("asd")
         // Return user details
         return {
           id: user.id,

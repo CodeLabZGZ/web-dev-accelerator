@@ -14,7 +14,9 @@
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "cypress:open": "cypress open",
+    "cypress:coverage": "nyc cypress run"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.4.2",
@@ -53,15 +55,19 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.13.1",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cypress": "^13.14.2",
     "dotenv": "^16.4.5",
     "drizzle-kit": "^0.24.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.7",
     "eslint-config-prettier": "^9.1.0",
+    "istanbul-lib-coverage": "^3.2.2",
+    "nyc": "^17.0.0",
     "postcss": "^8",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.0.0",

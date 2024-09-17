@@ -90,10 +90,9 @@ async function postHandler(request: Request) {
 
     // Insert the data into the database
     const rows = await db.insert(projects).values(safeData).returning()
-    console.log(rows)
 
     // Return the response with the inserted data
-    return response({ data: rows[0] })
+    return response({ data: rows[0], code: 201 })
   } catch (error) {
     // Handle unexpected errors
     console.error("Unexpected error:", error)

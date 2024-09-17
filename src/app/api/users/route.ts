@@ -47,13 +47,12 @@ export async function POST(request: Request) {
       salt,
       password: hash
     }
-    console.log(values)
 
     // Insert the data into the database
     const rows = await db.insert(users).values(values).returning()
 
     // Return the response with the inserted data
-    return response({ data: rows[0] })
+    return response({ data: rows[0], code: 201 })
   } catch (error) {
     // Handle unexpected errors
     console.error("Unexpected error:", error)
