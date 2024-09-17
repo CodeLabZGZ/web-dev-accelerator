@@ -90,7 +90,7 @@ export default function Login() {
         </form>
       </Form>
       <p className="text-left text-sm text-muted-foreground">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link
           href="/auth/register"
           className={buttonVariants({ variant: "link" })}

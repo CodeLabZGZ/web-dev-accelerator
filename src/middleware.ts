@@ -20,7 +20,7 @@ export default async function middleware(request: NextRequest) {
 
     // Si todo está bien, permite el acceso
     return NextResponse.next()
-  } catch (error) {
+  } catch {
     // Redirige al login en caso de error de autenticación
     const absoluteURL = new URL("/auth/login", origin)
     return NextResponse.redirect(absoluteURL.toString())

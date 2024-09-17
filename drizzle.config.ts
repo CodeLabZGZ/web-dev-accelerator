@@ -1,5 +1,5 @@
-import "dotenv/config";
-import { defineConfig } from "drizzle-kit";
+import "dotenv/config"
+import { defineConfig } from "drizzle-kit"
 
 export default defineConfig({
   dialect: "sqlite",
@@ -8,8 +8,8 @@ export default defineConfig({
   out: "./src/db/drizzle",
   dbCredentials: {
     url: process.env.DATABASE_URL!,
-    authToken: process.env.DATABASE_AUTH_TOKEN,
+    authToken: process.env.DATABASE_AUTH_TOKEN
   },
   strict: true,
-  verbose: true,
-});
+  verbose: true
+})

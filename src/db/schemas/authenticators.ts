@@ -1,10 +1,5 @@
-import {
-  integer,
-  sqliteTable,
-  text,
-  primaryKey,
-} from "drizzle-orm/sqlite-core";
-import { users } from "@/db/schemas/users";
+import { users } from "@/db/schemas/users"
+import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const authenticators = sqliteTable(
   "authenticator",
@@ -18,13 +13,13 @@ export const authenticators = sqliteTable(
     counter: integer("counter").notNull(),
     credentialDeviceType: text("credentialDeviceType").notNull(),
     credentialBackedUp: integer("credentialBackedUp", {
-      mode: "boolean",
+      mode: "boolean"
     }).notNull(),
-    transports: text("transports"),
+    transports: text("transports")
   },
-  (authenticator) => ({
+  authenticator => ({
     compositePK: primaryKey({
-      columns: [authenticator.userId, authenticator.credentialID],
-    }),
+      columns: [authenticator.userId, authenticator.credentialID]
+    })
   })
-);
+)

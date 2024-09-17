@@ -191,7 +191,9 @@ export default function Login() {
                       </FormControl>
                       <SelectContent>
                         {EDUCATIONAL_LEVELS.map(value => (
-                          <SelectItem value={value}>{value}</SelectItem>
+                          <SelectItem key={value} value={value}>
+                            {value}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -216,7 +218,9 @@ export default function Login() {
                       </FormControl>
                       <SelectContent>
                         {PROGRAMMING_LANGUAGES.map(value => (
-                          <SelectItem value={value}>{value}</SelectItem>
+                          <SelectItem key={value} value={value}>
+                            {value}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -241,7 +245,9 @@ export default function Login() {
                       </FormControl>
                       <SelectContent>
                         {JOBS_POSITIONS.map(value => (
-                          <SelectItem value={value}>{value}</SelectItem>
+                          <SelectItem key={value} value={value}>
+                            {value}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>

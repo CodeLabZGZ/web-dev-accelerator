@@ -1,11 +1,6 @@
-import {
-  integer,
-  sqliteTable,
-  text,
-  primaryKey,
-} from "drizzle-orm/sqlite-core";
-import type { AdapterAccountType } from "next-auth/adapters";
-import { users } from "@/db/schemas/users";
+import { users } from "@/db/schemas/users"
+import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
+import type { AdapterAccountType } from "next-auth/adapters"
 
 export const accounts = sqliteTable(
   "account",
@@ -22,11 +17,11 @@ export const accounts = sqliteTable(
     token_type: text("token_type"),
     scope: text("scope"),
     id_token: text("id_token"),
-    session_state: text("session_state"),
+    session_state: text("session_state")
   },
-  (account) => ({
+  account => ({
     compoundKey: primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
+      columns: [account.provider, account.providerAccountId]
+    })
   })
-);
+)

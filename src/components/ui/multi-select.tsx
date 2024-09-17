@@ -1,5 +1,3 @@
-// src/components/multi-select.tsx
-
 import { cva, type VariantProps } from "class-variance-authority"
 import { CheckIcon, ChevronDown, XCircle, XIcon } from "lucide-react"
 import * as React from "react"
@@ -66,6 +64,7 @@ interface MultiSelectProps
    * Callback function triggered when the selected values change.
    * Receives an array of the new selected values.
    */
+  // eslint-disable-next-line no-unused-vars
   onValueChange: (value: string[]) => void
 
   /** The default selected values when the component mounts. */
@@ -168,23 +167,13 @@ export const MultiSelect = React.forwardRef<
       onValueChange(newSelectedValues)
     }
 
-    const toggleAll = () => {
-      if (selectedValues.length === options.length) {
-        handleClear()
-      } else {
-        const allValues = options.map(option => option.value)
-        setSelectedValues(allValues)
-        onValueChange(allValues)
-      }
-    }
-
     return (
       <Popover
         open={isPopoverOpen}
         onOpenChange={setIsPopoverOpen}
         modal={modalPopover}
       >
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild={asChild}>
           <Button
             ref={ref}
             {...props}
