@@ -6,9 +6,6 @@
     "node": "20.x",
     "npm": "10.x"
   },
-  "lint-staged": {
-    "*.{js,ts,jsx,tsx,md,mdx}": "npm run lint"
-  },
   "scripts": {
     "turso": "turso dev --db-file src/db/local.db",
     "dev": "next dev",
