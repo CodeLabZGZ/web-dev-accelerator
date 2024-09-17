@@ -32,11 +32,11 @@ export default async function Home() {
         </Link>
       </TableCaption>
       <TableHeader>
-                <TableRow>
-                  <TableHead>Top Projects</TableHead>
-                  <TableHead align="right" className="text-right">
-                    Featured All
-                  </TableHead>
+        <TableRow>
+          <TableHead>Top Projects</TableHead>
+          <TableHead align="right" className="text-right">
+            Featured All
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
