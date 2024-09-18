@@ -16,8 +16,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "cypress:open": "cypress open",
-    "cypress:coverage": "cypress run",
-    "prepare": "husky"
+    "cypress:coverage": "cypress run"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.5.0",
