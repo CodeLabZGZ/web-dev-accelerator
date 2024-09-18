@@ -13,7 +13,9 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { z } from "zod"
 
 const formSchema = z.object({
@@ -22,6 +24,8 @@ const formSchema = z.object({
 })
 
 export default function Login() {
+  const router = useRouter()
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,18 +38,22 @@ export default function Login() {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Sign in with the provided credentials.
-    const result = await signIn("credentials", {
+    const promise = signIn("credentials", {
       ...values,
-      callbackUrl: "/"
+      redirect: false
     })
 
-    if (result?.error) {
-      console.error("Login failed:", result.error)
-      // You can add some state to display error messages to the user here
-    } else {
-      // Redirect to the specified URL
-      window.location.href = "/"
-    }
+    toast.promise(promise, {
+      loading: "Processing your request. Please wait a moment.",
+      success: data => {
+        if (data && data.error)
+          return "An error occurred while processing your request. Please try again."
+        router.push("/")
+        return "Your request was successfully completed."
+      },
+      error:
+        "An error occurred while processing your request. Please try again."
+    })
   }
 
   return (
