@@ -40,3 +40,7 @@ next-env.d.ts
 .nyc_output
 screenshots
 instrumented
+
+# db
+src/db/local.db
+src/db/local.db*
