@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm"
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 import { createInsertSchema, createSelectSchema } from "drizzle-zod"
+import { z } from "zod"
 
 export const projects = sqliteTable("projects", {
   id: text("id")
@@ -25,7 +26,13 @@ export const projects = sqliteTable("projects", {
 })
 
 // Schema for inserting a project - can be used to validate API requests
-export const insertProjectSchema = createInsertSchema(projects)
+export const insertProjectSchema = createInsertSchema(projects, {
+  tags: z.array(z.string())
+})
+export type InsertProject = z.infer<typeof insertProjectSchema>
 
 // Schema for selecting a project - can be used to validate API responses
-export const selectProjectSchema = createSelectSchema(projects)
+export const selectProjectSchema = createSelectSchema(projects, {
+  tags: z.array(z.string())
+})
+export type Project = z.infer<typeof selectProjectSchema>

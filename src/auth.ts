@@ -23,7 +23,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const [user] = await db
           .select()
           .from(users)
-          .where(eq(users.email, credentials.email))
+          .where(eq(users.email, credentials.email as string))
+          .limit(1)
 
         if (!user) {
           throw new Error("User not found")
@@ -31,8 +32,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         // Verify the provided password against the stored hash
         const { hash } = await saltAndHashPassword(
-          credentials.password,
-          user.salt
+          credentials.password as string,
+          user.salt as string
         )
         if (hash !== user.password) {
           throw new Error("Credentials mismatch")
@@ -49,7 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     })
   ],
   callbacks: {
-    async session({ session, token }) {
+    async session({ session, token }: { session: any; token: any }) {
       if (session?.user) {
         session.user.id = token.uid
       }

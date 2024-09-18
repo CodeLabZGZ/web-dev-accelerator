@@ -270,6 +270,7 @@ export default function Login() {
                       value={field.value || []}
                       placeholder="Select the sectors you're interested in"
                       variant="inverted"
+                      className="w-full"
                     />
                     <FormMessage />
                   </FormItem>

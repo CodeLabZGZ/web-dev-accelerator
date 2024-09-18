@@ -1,3 +1,4 @@
+import { Project } from "@/db/schemas/projects"
 import EDUCATIONAL_LEVELS from "@/lib/data/educational-levels.json"
 import JOBS_POSITIONS from "@/lib/data/job-positions.json"
 import PROGRAMMING_LANGUAGES from "@/lib/data/programming-languages.json"
@@ -32,23 +33,8 @@ export const isWithinStickingPeriod = (
   project: Project,
   currentDate: Date
 ): boolean => {
-  const endDate = addSecond(new Date(project.createdAt), project.stickingTime)
+  const endDate = addSecond(new Date(project.createdAt), project.stickingTime!)
   return endDate > currentDate || endDate.getTime() === currentDate.getTime()
-}
-
-export interface Project {
-  image: string
-  company: string
-  offer: string
-  location: string
-  link: string
-  votes: number
-  minSalary: number
-  maxSalary: number
-  tags: string[]
-  stickingTime: number
-  createdAt: number
-  updatedAt: number
 }
 
 const generateProject = (): Project => {
@@ -63,6 +49,7 @@ const generateProject = (): Project => {
   })
 
   return {
+    id: faker.string.uuid(),
     image: faker.image.urlPicsumPhotos({ height: 128, width: 128 }),
     company: faker.company.name(),
     offer: faker.company.catchPhrase(),
@@ -76,8 +63,8 @@ const generateProject = (): Project => {
       faker.number.int({ min: 0, max: 3 })
     ),
     stickingTime: faker.helpers.arrayElement([1, 7, 14, 30]) * 24 * 60 * 60, // seconds
-    createdAt: faker.date.recent({ days: 20 }).getTime(),
-    updatedAt: faker.date.recent().getTime()
+    createdAt: faker.date.recent({ days: 20 }),
+    updatedAt: faker.date.recent()
   }
 }
 
@@ -100,9 +87,9 @@ export const projects: Project[] = Array.from(
     return 1
   } else if (isAActive && isBActive) {
     // Ambos están activos, ordenar por votos en orden descendente
-    return b.votes - a.votes
+    return (b.votes ?? 0) - (a.votes ?? 0)
   } else {
     // Ambos están expirados, ordenar por votos en orden descendente
-    return b.votes - a.votes
+    return (b.votes ?? 0) - (a.votes ?? 0)
   }
 })

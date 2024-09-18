@@ -8,7 +8,7 @@ import { z } from "zod"
 async function getHandler() {
   const currentDate = new Date()
   const rows = await db.select().from(projects)
-  const data = rows.sort((a, b) => {
+  const data = rows.sort((a: any, b: any) => {
     // Determinar si cada proyecto está activo o expirado
     const isAActive = isWithinStickingPeriod(a, currentDate)
     const isBActive = isWithinStickingPeriod(b, currentDate)
@@ -21,10 +21,10 @@ async function getHandler() {
       return 1
     } else if (isAActive && isBActive) {
       // Ambos están activos, ordenar por votos en orden descendente
-      return b.votes - a.votes
+      return (b.votes ?? 0) - (a.votes ?? 0)
     } else {
       // Ambos están expirados, ordenar por votos en orden descendente
-      return b.votes - a.votes
+      return (b.votes ?? 0) - (a.votes ?? 0)
     }
   })
 
@@ -86,7 +86,7 @@ async function postHandler(request: Request) {
       return response({ message: result.error.message, code: 400 })
     }
 
-    const safeData = result.data
+    const safeData: any = result.data
 
     // Insert the data into the database
     const rows = await db.insert(projects).values(safeData).returning()

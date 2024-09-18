@@ -62,23 +62,27 @@ export default async function Home() {
                   <span className="text-sm text-gray-600">{project.offer}</span>
                 </div>
                 <div className="flex items-center gap-x-1">
-                  {addSecond(
-                    new Date(project.createdAt),
-                    project.stickingTime
-                  ) > new Date() && (
-                    <Badge variant="outline" className="text-xs">
-                      promoted
-                    </Badge>
-                  )}
+                  {project.stickingTime &&
+                    addSecond(
+                      new Date(project.createdAt),
+                      project.stickingTime
+                    ) > new Date() && (
+                      <Badge variant="outline" className="text-xs">
+                        promoted
+                      </Badge>
+                    )}
                   <span className="whitespace-nowrap text-xs text-muted-foreground">
-                    {renderPrice(project.minSalary, "es-ES", "EUR")} -{" "}
-                    {renderPrice(project.maxSalary, "es-ES", "EUR")}
+                    {project.minSalary &&
+                      renderPrice(project.minSalary, "es-ES", "EUR")}{" "}
+                    -{" "}
+                    {project.maxSalary &&
+                      renderPrice(project.maxSalary, "es-ES", "EUR")}
                   </span>
                   <span className="opacity-25">•</span>
                   <span className="whitespace-nowrap text-xs text-muted-foreground">
                     {project.location}
                   </span>
-                  {project.tags.map(tag => (
+                  {project?.tags?.map(tag => (
                     <>
                       <span className="opacity-25">•</span>
                       <span className="whitespace-nowrap text-xs text-muted-foreground">

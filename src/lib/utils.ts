@@ -71,7 +71,7 @@ export function genSalaryRange(
   m: number,
   offset: number
 ): Array<number> {
-  let lista = []
+  let lista: number[] = []
 
   offset = Math.abs(offset)
 
