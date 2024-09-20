@@ -1,7 +1,6 @@
 import { auth } from "@/auth"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,
@@ -11,18 +10,19 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
-import { projects } from "@/db/seed"
+import { VotesButton } from "@/components/votes-button"
 import { renderPrice } from "@/lib/formatters"
 import { addSecond } from "@formkit/tempo"
-import { TriangleUpIcon } from "@radix-ui/react-icons"
 import Image from "next/image"
 import Link from "next/link"
-
 const fallback =
   "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
 
 export default async function Home() {
   const session = await auth()
+  const projects = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects`)
+    .then(res => res.json())
+    .then(res => res.data)
 
   return (
     <Table>
@@ -94,15 +94,7 @@ export default async function Home() {
               </div>
             </TableCell>
             <TableCell align="right">
-              <Button
-                variant="outline"
-                className="flex h-14 w-14 flex-col items-center justify-center -space-y-2 rounded"
-              >
-                <TriangleUpIcon className="h-8 w-8 text-gray-600 transition-colors" />
-                <span className="text-xs font-semibold text-gray-800">
-                  {project.votes}
-                </span>
-              </Button>
+              <VotesButton id={project.id} votes={project.votes} />
             </TableCell>
           </TableRow>
         ))}
