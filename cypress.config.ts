@@ -1,4 +1,3 @@
-import codeCoverageTask from "@cypress/code-coverage/task"
 import { defineConfig } from "cypress"
 
 export default defineConfig({
@@ -10,7 +9,6 @@ export default defineConfig({
     viewportWidth: 1280,
     experimentalRunAllSpecs: true,
     setupNodeEvents(on, config) {
-      codeCoverageTask(on, config)
       return config
     }
   },
@@ -22,7 +20,6 @@ export default defineConfig({
       bundler: "webpack"
     },
     setupNodeEvents(on, config) {
-      codeCoverageTask(on, config)
       return config
     }
   }
